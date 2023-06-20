@@ -1,0 +1,8 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        -id: hilltop-hotel-service
+        uri: lb://HILLTOP-HOTEL-SERVICE
+        predicates:
+
