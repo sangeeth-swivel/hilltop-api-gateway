@@ -1,6 +1,5 @@
----
 name: CI/CD Pipeline
-on:
+'on':
   workflow_dispatch: null
   push:
     branches:
@@ -10,9 +9,7 @@ on:
       - opened
       - synchronize
       - reopened
-
 jobs:
-  #Sonar scan workflow
   scan:
     name: Sonar Analysis
     runs-on: ubuntu-latest
@@ -29,20 +26,21 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
+          key: '${{ runner.os }}-sonar'
+          restore-keys: '${{ runner.os }}-sonar'
       - name: Cache Maven packages
         uses: actions/cache@v3
         with:
           path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
+          key: '${{ runner.os }}-m2-${{ hashFiles(''**/pom.xml'') }}'
+          restore-keys: '${{ runner.os }}-m2'
       - name: Build and analyze
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=sangeeth-swivel_hilltop-api-gateway
-  #Build workflow
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+          SONAR_TOKEN: '${{ secrets.SONAR_TOKEN }}'
+        run: >-
+          mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+          -Dsonar.projectKey=sangeeth-swivel_hilltop-api-gateway
   build:
     needs: scan
     name: Build
@@ -52,13 +50,13 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
-          java-version: "11"
+          java-version: '11'
       - name: Cache Maven packages
         uses: actions/cache@v1
         with:
           path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
+          key: '${{ runner.os }}-m2-${{ hashFiles(''**/pom.xml'') }}'
+          restore-keys: '${{ runner.os }}-m2'
       - name: Build with Maven
         run: mvn -B package -DskipTests --file pom.xml
       - name: Upload JAR
@@ -66,7 +64,6 @@ jobs:
         with:
           name: artifact
           path: target/api-gateway-0.0.1-SNAPSHOT.jar
-  #Deployment workflow
   deploy:
     needs: build
     name: Deploy to Elastic Beanstalk
@@ -79,11 +76,11 @@ jobs:
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v13
         with:
-          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_access_key: '${{ secrets.AWS_ACCESS_KEY_ID }}'
+          aws_secret_key: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
           use_existing_version_if_available: true
-          application_name: hill-top-gateway
-          environment_name: Hilltopgateway-env
-          version_label: ${{github.SHA}}
+          application_name: hilltop-api-gateway
+          environment_name: Hilltop-api-gateway-env
+          version_label: '${{github.SHA}}'
           region: us-east-1
           deployment_package: api-gateway-0.0.1-SNAPSHOT.jar
