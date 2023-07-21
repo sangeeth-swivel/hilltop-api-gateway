@@ -1,12 +1,12 @@
-# hill-top-gateway
+# hilltop-api-gateway
 
 ## Hosted in
 
-* 
+* http://hilltop-api-gateway.eu-north-1.elasticbeanstalk.com
  
 ## Sonar cloud analysis
 
-* 
+* https://sonarcloud.io/project/overview?id=sangeeth-swivel_hilltop-api-gateway
 
 ## Requirements
 
