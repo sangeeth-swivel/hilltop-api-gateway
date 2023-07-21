@@ -1,40 +1,29 @@
-  1.	User –  http://hilltop-user-service.eu-north-1.elasticbeanstalk.com
-    2.	Hotel –  http://hilltop-hotel-service.eu-north-1.elasticbeanstalk.com
-    3.	Reservation – http://hilltop-reservation-service.eu-north-1.elasticbeanstalk.com
-    4.	Discovery –  http://hilltop-discovery-service.eu-north-1.elasticbeanstalk.com
-
-
-  spring:
+spring:
+  profiles:
+    active: dev
   application:
     name: hilltop-api-gateway
   cloud:
     gateway:
       routes:
         - id: hilltop-user-service
-          url: http://hilltop-user-service.eu-north-1.elasticbeanstalk.com/
+          uri: http://hilltop-user-service.eu-north-1.elasticbeanstalk.com/
           predicates:
             - Path=/hilltop-user-service/**
           filters:
             - JwtAuthenticationFilter
         - id: hilltop-hotel-service
-          url: http://hilltop-hotel-service.eu-north-1.elasticbeanstalk.com/
+          uri: http://hilltop-hotel-service.eu-north-1.elasticbeanstalk.com/
           predicates:
             - Path=/hilltop-hotel-service/**
           filters:
             - JwtAuthenticationFilter
         - id: hilltop-reservation-service
-          url: http://hilltop-reservation-service.eu-north-1.elasticbeanstalk.com/
+          uri: http://hilltop-reservation-service.eu-north-1.elasticbeanstalk.com/
           predicates:
             - Path=/hilltop-reservation-service/**
           filters:
             - JwtAuthenticationFilter
-        - id: hilltop-discovery-service
-          url: http://hilltop-discovery-service.eu-north-1.elasticbeanstalk.com/
-          predicates:
-            - Path=/hilltop-discovery-service/**
-          filters:
-            - JwtAuthenticationFilter
-
 eureka:
   client:
     serviceUrl:
