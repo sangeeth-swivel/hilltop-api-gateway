@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <property name="LOG_PATH" value="%d{user.home}/logs"/>
+    <property name="LOG_PATH" value="logback/logs"/>
 
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
         <file>${LOG_PATH}/hilltop-api-gateway.log</file>

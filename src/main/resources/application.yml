@@ -24,6 +24,12 @@ spring:
             - Path=/hilltop-reservation-service/**
           filters:
             - JwtAuthenticationFilter
+        - id: hilltop-search-service
+          uri: http://hilltop-reservation-service.eu-north-1.elasticbeanstalk.com/
+          predicates:
+            - Path=/hilltop-search-service/**
+          filters:
+            - JwtAuthenticationFilter
 eureka:
   client:
     serviceUrl:
@@ -33,4 +39,4 @@ server:
   port: 5000
 
 userService:
-  validateToken: http://hilltop-user-service.eu-north-1.elasticbeanstalk.com/hilltop-user/api/v1/user/validate-token?token=
+  validateToken: http://hilltop-user-service.eu-north-1.elasticbeanstalk.com/hilltop-user-service/api/v1/user/validate-token?token=
